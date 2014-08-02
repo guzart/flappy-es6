@@ -1,21 +1,20 @@
-'use strict';
 
-var Boot = module.exports = function () {
-  Phaser.State.call(this);
-};
-Boot.prototype = Object.create(Phaser.State.prototype);
-Boot.prototype.constructor = Boot;
+var Phaser = global.Phaser;
 
-Boot.prototype.preload = function () {
-  this.load.baseURL = './assets/';
-  // this.load.image('progressBar', 'progressBar.png');
-};
+export default class Boot extends Phaser.State {
+  constructor() {
+    super();
+  }
 
-Boot.prototype.create = function () {
-  this.scale.pageAlignHorizontally = true;
-  this.scale.pageAlignVertically = true;
-  // this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-  this.scale.setScreenSize();
+  preload() {
+    this.load.baseURL = './assets/';
+  }
 
-  this.game.state.start('preloader');
-};
+  create() {
+    this.scale.pageAlignHorizontally = true;
+    this.scale.pageAlignVertically = true;
+    this.scale.setScreenSize();
+
+    this.game.state.start('preloader');
+  }
+}

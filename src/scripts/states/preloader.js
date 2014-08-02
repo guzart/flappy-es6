@@ -1,20 +1,22 @@
-'use strict';
 
-var Preloader = module.exports = function () {
-    Phaser.State.call(this);
-};
-Preloader.prototype = Object.create(Phaser.State.prototype);
-Preloader.prototype.constructor = Preloader;
+var Phaser = global.Phaser;
 
-Preloader.prototype.preload = function () {
-  var progressBar = this.add.sprite(
-    this.world.centerX, this.world.centerY, 'progressBar'
-  );
+export default class Preloader extends Phaser.State {
 
-  progressBar.anchor.set(0.5);
-  this.load.setPreloadSprite(progressBar);
-};
+  contructor() {
+    super();
+  }
 
-Preloader.prototype.create = function () {
-  this.game.state.start('menu');
-};
+  preload() {
+    var progressBar = this.add.sprite(
+      this.world.centerX, this.world.centerY, 'progressBar'
+    );
+
+    progressBar.anchor.set(0.5);
+    this.load.setPreloadSprite(progressBar);
+  }
+
+  create() {
+    this.game.state.start('menu');
+  }
+}

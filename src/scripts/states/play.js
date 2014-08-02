@@ -1,36 +1,38 @@
-'use strict';
 
-var Play = module.exports = function () {
-  Phaser.State.call(this);
-};
-Play.prototype = Object.create(Phaser.State.prototype);
-Play.prototype.constructor = Play;
+var Phaser = global.Phaser;
 
-Play.prototype.create = function () {
-  var style = {align: 'center', fill: '#ffffff', font: '15px Arial'};
-  var text;
+export default class Play extends Phaser.State {
 
-  if (this.game.device.desktop) {
-    text = 'Click to go back to the menu';
-  } else {
-    text = 'Touch to go back to the menu';
+  constructor() {
+    super();
   }
 
-  this.add
-    .text(this.world.centerX, 100, 'This is the game state', {fill: '#ffffff'})
-    .anchor.set(0.5);
+  create() {
+    var style = {align: 'center', fill: '#ffffff', font: '15px Arial'};
+    var text;
 
-  this.add
-    .text(this.world.centerX, this.world.height - 150, text, style)
-    .anchor.set(0.5);
+    if (this.game.device.desktop) {
+      text = 'Click to go back to the menu';
+    } else {
+      text = 'Touch to go back to the menu';
+    }
 
-  this.input.onDown.add(this.switchBackToMenu, this);
-};
+    this.add
+      .text(this.world.centerX, 100, 'This is the game state', {fill: '#ffffff'})
+      .anchor.set(0.5);
 
-Play.prototype.update = function () {
-  // Body...
-};
+    this.add
+      .text(this.world.centerX, this.world.height - 150, text, style)
+      .anchor.set(0.5);
 
-Play.prototype.switchBackToMenu = function () {
-  this.state.start('menu');
-};
+    this.input.onDown.add(this.switchBackToMenu, this);
+  }
+
+  update() {
+    // Body...
+  }
+
+  switchBackToMenu() {
+    this.state.start('menu');
+  }
+}
