@@ -1,21 +1,12 @@
 'use strict';
 
-var browserSync = require('browser-sync');
-var browserify = require('browserify');
-var es6ify = require('es6ify');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var ignore = require('gulp-ignore');
-var imagemin = require('gulp-imagemin');
-var jade = require('gulp-jade');
-var linter = require('gulp-jshint');
-var rename = require('gulp-rename');
-var sass = require('gulp-sass');
-var source = require('vinyl-source-stream');
-var uglify = require('gulp-uglify');
-var cfg = require('../../config');
+var browserSync = require('browser-sync');
 
 var DEBUG = process.env.NODE_ENV === 'dev';
+
+gulp.task('build', ['build-all']);
 
 gulp.task('build-all', [
   'build-assets', 'build-markup', 'build-scripts', 'build-stylesheets',
@@ -36,6 +27,7 @@ gulp.task('build-fonts', ['clean-fonts'], function () {
     .pipe(browserSync.reload({stream: true, once: true}));
 });
 
+var imagemin = require('gulp-imagemin');
 gulp.task('build-images', ['clean-images'], function () {
   gulp.src(['./assets/*.jpg', './assets/*.png'])
     .pipe(imagemin())
@@ -43,6 +35,8 @@ gulp.task('build-images', ['clean-images'], function () {
     .pipe(browserSync.reload({stream: true, once: true}));
 });
 
+var jade = require('gulp-jade');
+var cfg = require('../../config');
 gulp.task('build-markup', ['clean-markup'], function () {
   gulp.src('./src/*jade')
     .pipe(jade({
@@ -56,6 +50,9 @@ gulp.task('build-markup', ['clean-markup'], function () {
     .pipe(browserSync.reload({stream: true}));
 });
 
+var browserify = require('browserify');
+var es6ify = require('es6ify');
+var source = require('vinyl-source-stream');
 gulp.task('build-scripts', ['lint', 'clean-scripts'], function () {
   browserify('./src/scripts/main.js', {debug: DEBUG})
     .transform(es6ify)
@@ -68,6 +65,7 @@ gulp.task('build-scripts', ['lint', 'clean-scripts'], function () {
     .pipe(browserSync.reload({stream: true, once: true}));
 });
 
+var sass = require('gulp-sass');
 gulp.task('build-stylesheets', ['clean-stylesheets'], function () {
   gulp.src('./src/stylesheets/*.scss')
     .pipe(sass())
@@ -75,6 +73,7 @@ gulp.task('build-stylesheets', ['clean-stylesheets'], function () {
     .pipe(browserSync.reload({stream: true}));
 });
 
+var ignore = require('gulp-ignore');
 gulp.task('build-vendors', ['clean-vendors'], function () {
   gulp
     .src([
@@ -85,12 +84,15 @@ gulp.task('build-vendors', ['clean-vendors'], function () {
     .pipe(gulp.dest('./dist/js/'));
 });
 
+var linter = require('gulp-jshint');
 gulp.task('lint', function () {
   gulp.src('./src/scripts/**/*.js')
     .pipe(linter())
     .pipe(linter.reporter('jshint-stylish'));
 });
 
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
 gulp.task('uglify', ['clean-uglified'], function () {
   gulp.src('./dist/js/game.js')
     .pipe(rename('game.min.js'))

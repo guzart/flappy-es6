@@ -3,6 +3,8 @@
 var clean = require('gulp-rimraf');
 var gulp = require('gulp');
 
+gulp.task('clean', ['clean-all']);
+
 gulp.task('clean-all', [
   'clean-assets', 'clean-markup', 'clean-scripts', 'clean-stylesheets',
   'clean-uglified', 'clean-vendors'
