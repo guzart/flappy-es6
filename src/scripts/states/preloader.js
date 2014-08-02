@@ -15,6 +15,11 @@ export default class Preloader extends Phaser.State {
     this.load.setPreloadSprite(this.asset);
 
     this.load.image('background', 'images/background.png');
+    this.load.image('ground', 'images/ground.png');
+    this.load.image('title', 'images/title.png');
+    this.load.image('startButton', 'images/start-button.png');
+
+    this.load.spritesheet('bird', 'images/bird.png', 34, 24, 3);
   }
 
   create() {
