@@ -1,8 +1,9 @@
 {
-  "browser": true,
+  "browser": false,
   "node": true,
-  "strict": true,
+  "strict": false,
   "esnext": true,
+
   "bitwise": true,
   "camelcase": true,
   "curly": true,
@@ -11,7 +12,7 @@
   "immed": true,
   "indent": 2,
   "latedef": true,
-  "maxlen": 80,
+  "maxlen": 100,
   "newcap": true,
   "noarg": true,
   "noempty": true,
