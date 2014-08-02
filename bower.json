@@ -1,0 +1,11 @@
+{
+  "name": "flappy-bird",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "phaser-official": "latest"
+  },
+  "dependencies": {
+    "traceur-runtime": "~0.0.51"
+  }
+}

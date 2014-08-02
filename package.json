@@ -1,0 +1,27 @@
+{
+  "name": "flappy-bird",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "bower": "latest",
+    "browser-sync": "latest",
+    "browserify": "latest",
+    "es6ify": "^1.2.0",
+    "gulp": "latest",
+    "gulp-ignore": "latest",
+    "gulp-imagemin": "latest",
+    "gulp-jade": "latest",
+    "gulp-jshint": "latest",
+    "gulp-rename": "latest",
+    "gulp-rimraf": "latest",
+    "gulp-sass": "latest",
+    "gulp-uglify": "latest",
+    "gulp-util": "latest",
+    "jshint-stylish": "latest",
+    "vinyl-source-stream": "latest"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=dev gulp default",
+    "package": "gulp build-all && gulp uglify"
+  }
+}
