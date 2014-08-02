@@ -29,7 +29,7 @@ gulp.task('build-fonts', ['clean-fonts'], function () {
 
 var imagemin = require('gulp-imagemin');
 gulp.task('build-images', ['clean-images'], function () {
-  gulp.src(['./assets/*.jpg', './assets/*.png'])
+  gulp.src(['./assets/**/*.jpg', './assets/**/*.png'])
     .pipe(imagemin())
     .pipe(gulp.dest('./dist/assets/'))
     .pipe(browserSync.reload({stream: true, once: true}));
