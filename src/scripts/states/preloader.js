@@ -8,15 +8,26 @@ export default class Preloader extends Phaser.State {
   }
 
   preload() {
-    var progressBar = this.add.sprite(
-      this.world.centerX, this.world.centerY, 'progressBar'
-    );
+    this.asset = this.add.sprite(this.game.width/2, this.game.height/2, 'preloader');
+    this.asset.anchor.setTo(0.5, 0.5);
 
-    progressBar.anchor.set(0.5);
-    this.load.setPreloadSprite(progressBar);
+    this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
+    this.load.setPreloadSprite(this.asset);
+
+    this.load.image('background', 'images/background.png');
   }
 
   create() {
-    this.game.state.start('menu');
+    this.asset.cropEnabled = false;
+  }
+
+  update() {
+    if (!!this.ready) {
+      this.game.state.start('menu');
+    }
+  }
+
+  onLoadComplete() {
+    this.ready = true;
   }
 }
