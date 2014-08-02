@@ -8,33 +8,29 @@ export default class Menu extends Phaser.State {
   }
 
   create() {
-    var labelStyle = {align: 'center', fill: '#ffffff', font: '15px Arial'};
-    var titleStyle = {align: 'center', fill: '#ffffff', font: 'bold 45px Arial'};
-    var text, title;
+    this.background = this.game.add.sprite(0, 0, 'background');
+    this.ground = this.game.add.tileSprite(0, 400, 335, 112, 'ground');
+    this.ground.autoScroll(-200, 0);
 
-    if (this.game.device.desktop) {
-      text = 'Click to start';
-    } else {
-      text = 'Touch to start';
-    }
+    this.title = this.game.add.sprite(0, 0, 'title');
 
-    title = this.add
-      .text(this.world.centerX, 0, 'Demo Project', titleStyle)
-      .anchor.setTo(0.5);
+    this.bird = this.game.add.sprite(200, 5, 'bird');
+    this.bird.animations.add('flap');
+    this.bird.animations.play('flap', 12, true);
 
-    this.add
-      .text(this.world.centerX, 150, 'Menu Screen', {fill: '#fff'})
-      .anchor.set(0.5);
+    this.titleGroup = this.game.add.group();
+    this.titleGroup.add(this.title);
+    this.titleGroup.add(this.bird);
+    this.titleGroup.x = 30;
+    this.titleGroup.y = 100;
 
-    this.add
-      .text(this.world.centerX, this.world.height - 150, text, labelStyle)
-      .anchor.set(0.5);
+    this.game.add
+      .tween(this.titleGroup)
+      .to({ y: 115 }, 350, Phaser.Easing.Linear.NONE, true, 0, 1000, true);
 
-    this.add.tween(title)
-      .to({y: -1})
-      .start();
-
-    this.input.onDown.add(this.startGame, this);
+    this.startButton = this.game.add.button(
+      this.game.width/2, 300, 'startButton', this.startGame, this);
+    this.startButton.anchor.setTo(0.5, 0.5);
   }
 
   startGame() {
