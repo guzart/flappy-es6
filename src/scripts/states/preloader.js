@@ -20,6 +20,11 @@ export default class Preloader extends Phaser.State {
     this.load.image('startButton', 'images/start-button.png');
     this.load.image('getReady', 'images/get-ready.png');
 
+    this.load.bitmapFont(
+      'flappyfont',
+      'fonts/flappyfont/flappyfont.png',
+      'fonts/flappyfont/flappyfont.fnt');
+
     this.load.spritesheet('bird', 'images/bird.png', 34, 24, 3);
     this.load.spritesheet('pipe', 'images/pipes.png', 54, 320, 2);
   }

@@ -24,6 +24,11 @@ export default class Play extends Phaser.State {
 
     this.pipes = this.game.add.group();
 
+    this.score = 0;
+    this.scoreText = this.game.add.bitmapText(
+      this.game.width/2, 10, 'flappyfont', this.score.toString(), 24);
+    this.scoreText.visible = false;
+
     var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     flapKey.onDown.add(this.bird.flap, this.bird);
     flapKey.onDown.addOnce(this.startGame, this);
@@ -40,11 +45,14 @@ export default class Play extends Phaser.State {
   update() {
     this.game.physics.arcade.collide(this.bird, this.ground, this.deadHandler, null, this);
     this.pipes.forEach(function (pipeGroup) {
+      this.checkScore(pipeGroup);
       this.game.physics.arcade.collide(this.bird, pipeGroup, this.deadHandler, null, this);
     }, this);
   }
 
   startGame() {
+    this.scoreText.visible = true;
+
     this.bird.body.allowGravity = true;
     this.bird.alive = true;
 
@@ -62,6 +70,15 @@ export default class Play extends Phaser.State {
       pipeGroup = new PipeGroup(this.game, this.pipes);
     }
     pipeGroup.reset(this.game.width + pipeGroup.width/2, pipeY);
+  }
+
+  checkScore(pipeGroup) {
+    if (pipeGroup.exists && !pipeGroup.hasScored &&
+        pipeGroup.topPipe.world.x <= this.bird.world.x) {
+      pipeGroup.hasScored = true;
+      this.score += 1;
+      this.scoreText.setText(this.score.toString());
+    }
   }
 
   deadHandler() {

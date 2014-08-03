@@ -19,6 +19,10 @@ export default class GameOver extends Phaser.State {
     var instructionMsg = 'Click To Play Again';
     this.instructionText = this.game.add.text(centerX, 300, instructionMsg, this.getTextStyle(16));
     this.instructionText.anchor.setTo(0.5, 0.5);
+
+    var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    flapKey.onDown.add(this.startGame, this);
+    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
   }
 
   getTextStyle(fontSize) {
@@ -29,9 +33,11 @@ export default class GameOver extends Phaser.State {
     };
   }
 
-  update() {
-    if(this.game.input.activePointer.justPressed()) {
-      this.game.state.start('play');
-    }
+  startGame() {
+    this.game.state.start('play');
+  }
+
+  shutdown() {
+    this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
   }
 }
