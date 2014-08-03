@@ -24,14 +24,17 @@ export default class Play extends Phaser.State {
 
     this.pipes = this.game.add.group();
 
-    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
     var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     flapKey.onDown.add(this.bird.flap, this.bird);
-    this.input.onDown.add(this.bird.flap, this.bird);
+    flapKey.onDown.addOnce(this.startGame, this);
 
-    this.pipeGenerator = this.game.time.events.loop(
-      Phaser.Timer.SECOND * 1.25, this.generatePipes, this);
-    this.pipeGenerator.timer.start();
+    this.game.input.onDown.addOnce(this.startGame, this);
+    this.game.input.onDown.add(this.bird.flap, this.bird);
+
+    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+    this.getReady = this.game.add.sprite(this.game.width/2, 100, 'getReady');
+    this.getReady.anchor.setTo(0.5, 0.5);
   }
 
   update() {
@@ -39,6 +42,17 @@ export default class Play extends Phaser.State {
     this.pipes.forEach(function (pipeGroup) {
       this.game.physics.arcade.collide(this.bird, pipeGroup, this.deadHandler, null, this);
     }, this);
+  }
+
+  startGame() {
+    this.bird.body.allowGravity = true;
+    this.bird.alive = true;
+
+    var interval = Phaser.Timer.SECOND * 1.25;
+    this.pipeGenerator = this.game.time.events.loop(interval, this.generatePipes, this);
+    this.pipeGenerator.timer.start();
+
+    this.getReady.destroy();
   }
 
   generatePipes() {

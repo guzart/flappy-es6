@@ -11,7 +11,10 @@ export default class Bird extends Phaser.Sprite {
     this.animations.add('flap');
     this.animations.play('flap', 12, true);
 
+    this.alive = false;
+
     this.game.physics.arcade.enableBody(this);
+    this.body.allowGravity = false;
   }
 
   flap() {
@@ -20,7 +23,7 @@ export default class Bird extends Phaser.Sprite {
   }
 
   update() {
-    if (this.angle < 90) {
+    if (this.angle < 90 && this.alive) {
       this.angle += 2.5;
     }
   }
