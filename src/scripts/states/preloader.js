@@ -19,6 +19,9 @@ export default class Preloader extends Phaser.State {
     this.load.image('title', 'images/title.png');
     this.load.image('startButton', 'images/start-button.png');
     this.load.image('getReady', 'images/get-ready.png');
+    this.load.image('scoreboard', 'images/scoreboard.png');
+    this.load.image('gameover', 'images/game-over.png');
+    this.load.image('particle', 'images/particle.png');
 
     this.load.bitmapFont(
       'flappyfont',
@@ -30,6 +33,7 @@ export default class Preloader extends Phaser.State {
     this.load.audio('pipeHit', 'audio/pipe-hit.wav');
     this.load.audio('groundHit', 'audio/ground-hit.wav');
 
+    this.load.spritesheet('medals', 'images/medals.png', 44, 46, 2);
     this.load.spritesheet('bird', 'images/bird.png', 34, 24, 3);
     this.load.spritesheet('pipe', 'images/pipes.png', 54, 320, 2);
   }

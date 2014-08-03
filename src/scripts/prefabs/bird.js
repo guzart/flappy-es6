@@ -13,21 +13,21 @@ export default class Bird extends Phaser.Sprite {
 
     this.flapSound = this.game.add.audio('flap');
 
-    this.alive = false;
-
     this.game.physics.arcade.enableBody(this);
     this.body.allowGravity = false;
+
+    this.alive = false;
   }
 
   flap() {
+    if (!this.alive) { return; }
     this.flapSound.play();
     this.body.velocity.y = -400;
     this.game.add.tween(this).to({ angle: -40 }, 100).start();
   }
 
   update() {
-    if (this.angle < 90 && this.alive) {
-      this.angle += 2.5;
-    }
+    if (!this.alive || this.angle >= 90) { return; }
+    this.angle += 2.5;
   }
 }

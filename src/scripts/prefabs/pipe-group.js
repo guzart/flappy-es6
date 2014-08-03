@@ -22,6 +22,10 @@ export default class PipeGroup extends Phaser.Group {
     this.checkWorldBounds();
   }
 
+  stop() {
+    this.setAll('body.velocity.x', 0);
+  }
+
   reset(x, y) {
     this.topPipe.reset(0, 0);
     this.bottomPipe.reset(0, 440);

@@ -3,6 +3,7 @@ import Phaser from 'phaser';
 import Bird from '../prefabs/bird';
 import Ground from '../prefabs/ground';
 import PipeGroup from '../prefabs/pipe-group';
+import Scoreboard from '../prefabs/scoreboard';
 
 export default class Play extends Phaser.State {
 
@@ -30,8 +31,8 @@ export default class Play extends Phaser.State {
     this.scoreText.visible = false;
 
     var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    flapKey.onDown.add(this.bird.flap, this.bird);
     flapKey.onDown.addOnce(this.startGame, this);
+    flapKey.onDown.add(this.bird.flap, this.bird);
 
     this.game.input.onDown.addOnce(this.startGame, this);
     this.game.input.onDown.add(this.bird.flap, this.bird);
@@ -53,6 +54,8 @@ export default class Play extends Phaser.State {
   }
 
   startGame() {
+    if (!this.getReady.exists) { return; }
+
     this.scoreText.visible = true;
 
     this.bird.body.allowGravity = true;
@@ -85,7 +88,16 @@ export default class Play extends Phaser.State {
   }
 
   deadHandler() {
-    this.game.state.start('gameover');
+    if (!this.bird.alive) { return; }
+
+    this.bird.alive = false;
+    this.pipes.callAll('stop');
+    this.pipeGenerator.timer.stop();
+    this.ground.stopScroll();
+
+    this.scoreboard = new Scoreboard(this.game);
+    this.game.add.existing(this.scoreboard);
+    this.scoreboard.show(this.score);
   }
 
   switchBackToMenu() {
@@ -96,5 +108,6 @@ export default class Play extends Phaser.State {
     this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
     this.bird.destroy();
     this.pipes.destroy();
+    this.scoreboard.destroy();
   }
 }
