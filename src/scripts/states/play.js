@@ -1,5 +1,7 @@
 
 var Phaser = global.Phaser;
+import Bird from '../prefabs/bird';
+import Ground from '../prefabs/ground';
 
 export default class Play extends Phaser.State {
 
@@ -8,28 +10,20 @@ export default class Play extends Phaser.State {
   }
 
   create() {
-    var style = {align: 'center', fill: '#ffffff', font: '15px Arial'};
-    var text;
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.game.physics.arcade.gravity.y = 500; // px per sec
 
-    if (this.game.device.desktop) {
-      text = 'Click to go back to the menu';
-    } else {
-      text = 'Touch to go back to the menu';
-    }
+    this.background = this.game.add.sprite(0, 0, 'background');
 
-    this.add
-      .text(this.world.centerX, 100, 'This is the game state', {fill: '#ffffff'})
-      .anchor.set(0.5);
+    this.ground = new Ground(this.game, 0, 400, 335, 112);
+    this.game.add.existing(this.ground);
 
-    this.add
-      .text(this.world.centerX, this.world.height - 150, text, style)
-      .anchor.set(0.5);
-
-    this.input.onDown.add(this.switchBackToMenu, this);
+    this.bird = new Bird(this.game, 100, this.game.height/2);
+    this.game.add.existing(this.bird);
   }
 
   update() {
-    // Body...
+    this.game.physics.arcade.collide(this.bird, this.ground);
   }
 
   switchBackToMenu() {
