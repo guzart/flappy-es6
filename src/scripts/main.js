@@ -1,6 +1,5 @@
 
-var Phaser = global.Phaser;
-
+import Phaser from 'phaser';
 import Boot from './states/boot';
 import Preloader from './states/preloader';
 import Menu from './states/menu';

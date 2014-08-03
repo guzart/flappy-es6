@@ -1,5 +1,5 @@
 
-var Phaser = global.Phaser;
+import Phaser from 'phaser';
 
 export default class Ground extends Phaser.TileSprite {
 

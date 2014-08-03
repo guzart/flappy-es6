@@ -1,5 +1,5 @@
 
-var Phaser = global.Phaser;
+import Phaser from 'phaser';
 
 export default class Preloader extends Phaser.State {
 
@@ -28,7 +28,8 @@ export default class Preloader extends Phaser.State {
 
   update() {
     if (!!this.ready) {
-      this.game.state.start('menu');
+      // this.game.state.start('menu');
+      this.game.state.start('play');
     }
   }
 

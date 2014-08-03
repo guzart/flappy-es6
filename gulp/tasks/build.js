@@ -55,6 +55,7 @@ var es6ify = require('es6ify');
 var source = require('vinyl-source-stream');
 gulp.task('build-scripts', ['lint', 'clean-scripts'], function () {
   browserify('./src/scripts/main.js', {debug: DEBUG})
+    .require('./lib/phaser-shim.js', {expose: 'phaser'})
     .transform(es6ify)
     .bundle()
     .on('error', function (err) {

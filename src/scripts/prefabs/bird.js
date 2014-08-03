@@ -1,5 +1,5 @@
 
-var Phaser = global.Phaser;
+import Phaser from 'phaser';
 
 export default class Bird extends Phaser.Sprite {
 

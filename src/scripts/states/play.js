@@ -1,5 +1,5 @@
 
-var Phaser = global.Phaser;
+import Phaser from 'phaser';
 import Bird from '../prefabs/bird';
 import Ground from '../prefabs/ground';
 
