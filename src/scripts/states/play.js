@@ -2,6 +2,7 @@
 import Phaser from 'phaser';
 import Bird from '../prefabs/bird';
 import Ground from '../prefabs/ground';
+import PipeGroup from '../prefabs/pipe-group';
 
 export default class Play extends Phaser.State {
 
@@ -11,7 +12,7 @@ export default class Play extends Phaser.State {
 
   create() {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.physics.arcade.gravity.y = 500; // px per sec
+    this.game.physics.arcade.gravity.y = 1200; // px per sec
 
     this.background = this.game.add.sprite(0, 0, 'background');
 
@@ -20,10 +21,31 @@ export default class Play extends Phaser.State {
 
     this.bird = new Bird(this.game, 100, this.game.height/2);
     this.game.add.existing(this.bird);
+
+    this.pipes = this.game.add.group();
+
+    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    flapKey.onDown.add(this.bird.flap, this.bird);
+    this.input.onDown.add(this.bird.flap, this.bird);
+
+    this.pipeGenerator = this.game.time.events.loop(
+      Phaser.Timer.SECOND * 1.25, this.generatePipes, this);
+    this.pipeGenerator.timer.start();
   }
 
   update() {
+    if (this.pipes) { console.log(this.pipes.length); }
     this.game.physics.arcade.collide(this.bird, this.ground);
+  }
+
+  generatePipes() {
+    var pipeY = this.game.rnd.integerInRange(-100, 100);
+    var pipeGroup = this.pipes.getFirstExists(false);
+    if (!pipeGroup) {
+      pipeGroup = new PipeGroup(this.game, this.pipes);
+    }
+    pipeGroup.reset(this.game.width + pipeGroup.width/2, pipeY);
   }
 
   switchBackToMenu() {

@@ -14,7 +14,14 @@ export default class Bird extends Phaser.Sprite {
     this.game.physics.arcade.enableBody(this);
   }
 
-  update() {
+  flap() {
+    this.body.velocity.y = -400;
+    this.game.add.tween(this).to({ angle: -40 }, 100).start();
+  }
 
+  update() {
+    if (this.angle < 90) {
+      this.angle += 2.5;
+    }
   }
 }
