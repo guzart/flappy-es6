@@ -40,6 +40,8 @@ export default class Play extends Phaser.State {
 
     this.getReady = this.game.add.sprite(this.game.width/2, 100, 'getReady');
     this.getReady.anchor.setTo(0.5, 0.5);
+
+    this.scoreSound = this.game.add.audio('score');
   }
 
   update() {
@@ -78,6 +80,7 @@ export default class Play extends Phaser.State {
       pipeGroup.hasScored = true;
       this.score += 1;
       this.scoreText.setText(this.score.toString());
+      this.scoreSound.play();
     }
   }
 

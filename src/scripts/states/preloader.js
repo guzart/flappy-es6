@@ -25,6 +25,11 @@ export default class Preloader extends Phaser.State {
       'fonts/flappyfont/flappyfont.png',
       'fonts/flappyfont/flappyfont.fnt');
 
+    this.load.audio('score', 'audio/score.wav');
+    this.load.audio('flap', 'audio/flap.wav');
+    this.load.audio('pipeHit', 'audio/pipe-hit.wav');
+    this.load.audio('groundHit', 'audio/ground-hit.wav');
+
     this.load.spritesheet('bird', 'images/bird.png', 34, 24, 3);
     this.load.spritesheet('pipe', 'images/pipes.png', 54, 320, 2);
   }
