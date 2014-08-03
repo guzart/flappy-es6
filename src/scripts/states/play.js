@@ -35,8 +35,10 @@ export default class Play extends Phaser.State {
   }
 
   update() {
-    if (this.pipes) { console.log(this.pipes.length); }
-    this.game.physics.arcade.collide(this.bird, this.ground);
+    this.game.physics.arcade.collide(this.bird, this.ground, this.deadHandler, null, this);
+    this.pipes.forEach(function (pipeGroup) {
+      this.game.physics.arcade.collide(this.bird, pipeGroup, this.deadHandler, null, this);
+    }, this);
   }
 
   generatePipes() {
@@ -48,7 +50,17 @@ export default class Play extends Phaser.State {
     pipeGroup.reset(this.game.width + pipeGroup.width/2, pipeY);
   }
 
+  deadHandler() {
+    this.game.state.start('gameover');
+  }
+
   switchBackToMenu() {
     this.state.start('menu');
+  }
+
+  shutdown() {
+    this.game.input.keyboard.removeKey(Phaser.Keyboard.SPACEBAR);
+    this.bird.destroy();
+    this.pipes.destroy();
   }
 }
