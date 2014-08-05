@@ -45,11 +45,11 @@ export default class Scoreboard extends Phaser.Group {
     this.bestScoreText.setText(bestScore.toString());
 
     if (score >= 5 && score < 20) {
-      medal = this.game.add.sprite(-65 , 7, 'medals', 1);
+      medal = this.game.add.sprite(-65 , 7, 'medals', 0);
       medal.anchor.setTo(0.5, 0.5);
       this.scoreboard.addChild(medal);
     } else if (score >= 20) {
-      medal = this.game.add.sprite(-65 , 7, 'medals', 0);
+      medal = this.game.add.sprite(-65 , 7, 'medals', 1);
       medal.anchor.setTo(0.5, 0.5);
       this.scoreboard.addChild(medal);
     }

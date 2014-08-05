@@ -1,5 +1,6 @@
 
 import Phaser from 'phaser';
+module config from '../../../config';
 
 export default class Bird extends Phaser.Sprite {
 
@@ -36,7 +37,7 @@ export default class Bird extends Phaser.Sprite {
     if (!this.alive) { return; }
 
     this.flapSound.play();
-    this.body.velocity.y = -400;
+    this.body.velocity.y = config.flapVelocity;
     this.game.add.tween(this).to({ angle: -40 }, 100).start();
   }
 

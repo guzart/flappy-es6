@@ -4,6 +4,7 @@ import Bird from '../prefabs/bird';
 import Ground from '../prefabs/ground';
 import PipeGroup from '../prefabs/pipe-group';
 import Scoreboard from '../prefabs/scoreboard';
+module config from '../../../config';
 
 export default class Play extends Phaser.State {
 
@@ -13,7 +14,7 @@ export default class Play extends Phaser.State {
 
   create() {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.physics.arcade.gravity.y = 1200; // px per sec
+    this.game.physics.arcade.gravity.y = config.gravity;
 
     this.background = this.game.add.sprite(0, 0, 'background');
 
@@ -30,9 +31,9 @@ export default class Play extends Phaser.State {
       this.game.width/2, 10, 'flappyfont', this.score.toString(), 24);
     this.scoreText.visible = false;
 
-    var flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    flapKey.onDown.addOnce(this.startGame, this);
-    flapKey.onDown.add(this.bird.flap, this.bird);
+    this.flapKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    this.flapKey.onDown.addOnce(this.startGame, this);
+    this.flapKey.onDown.add(this.bird.flap, this.bird);
 
     this.game.input.onDown.addOnce(this.startGame, this);
     this.game.input.onDown.add(this.bird.flap, this.bird);
@@ -61,7 +62,7 @@ export default class Play extends Phaser.State {
     this.bird.body.allowGravity = true;
     this.bird.alive = true;
 
-    var interval = Phaser.Timer.SECOND * 1.25;
+    var interval = Phaser.Timer.SECOND * config.pipes.interval;
     this.pipeGenerator = this.game.time.events.loop(interval, this.generatePipes, this);
     this.pipeGenerator.timer.start();
 
@@ -97,6 +98,7 @@ export default class Play extends Phaser.State {
 
     this.scoreboard = new Scoreboard(this.game);
     this.game.add.existing(this.scoreboard);
+    this.flapKey.onDown.addOnce(this.scoreboard.startClick, this.scoreboard);
     this.scoreboard.show(this.score);
   }
 

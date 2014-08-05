@@ -10,4 +10,6 @@ gulp.task('watch', function () {
   gulp.watch('./src/*.jade', ['build-markup']);
   gulp.watch('./src/scripts/**/*.js', ['build-scripts']);
   gulp.watch('./src/stylesheets/*.scss', ['build-stylesheets']);
+
+  gulp.watch('./config.js', ['build-scripts']);
 });
